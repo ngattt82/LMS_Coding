@@ -1,6 +1,5 @@
 from django.db import models
-from category.models import Category
-from subject.models import Subject
+from subject.models import Subject, Category
 from question.models import Question, Answer
 from django.utils import timezone
 from django.conf import settings

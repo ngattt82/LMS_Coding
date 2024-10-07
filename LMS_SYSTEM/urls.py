@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
 from django.contrib import admin
 from django.urls import path, include
 from .views import home_view
@@ -34,7 +33,7 @@ urlpatterns = [
      # Add this to include Django's built-in authentication views
     # path('accounts/', include('django.contrib.auth.urls')),
     # path('accounts/', include(('user.urls', 'user'), namespace='user')),
-    path('category/', include('category.urls')),  
+    # path('category/', include('category.urls')),  
     path('question/', include('question.urls')),  
     path('subject/', include('subject.urls')), 
     path('quiz/', include('quiz.urls')),  

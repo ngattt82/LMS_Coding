@@ -1,6 +1,6 @@
 from django.db import models
-from category.models import Category #, SubCategory  # Add SubCategory import
-from subject.models import Subject
+# from category.models import Category #, SubCategory  # Add SubCategory import
+from subject.models import Subject, Category
 from django.utils import timezone
 
 class Question(models.Model):

@@ -1,6 +1,13 @@
 from django.contrib import admin
-
-# Register your models here.
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 from .models import Category
 
-admin.site.register(Category)
+class CategoryResource(resources.ModelResource):
+    class Meta:
+        model = Category
+
+@admin.register(Category)
+class CategoryAdmin(ImportExportModelAdmin):
+    resource_class = CategoryResource
+    list_display = ('category_name', 'subject')  # Customize as needed

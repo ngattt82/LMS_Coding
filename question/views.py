@@ -3,8 +3,8 @@ from question.models import Question, Answer
 from question.forms import QuestionForm, AnswerForm
 from module_group.models import ModuleGroup
 from django.urls import reverse
-from subject.models import Subject
-from category.models import Category
+from subject.models import Subject, Category
+# from category.models import Category
 from django.contrib import messages
 
 
