@@ -11,7 +11,6 @@ from django.core.files.base import ContentFile
 
 User = get_user_model()
 
-
 class Quiz(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
