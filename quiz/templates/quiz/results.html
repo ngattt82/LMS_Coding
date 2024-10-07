@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Results</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Quiz Results</h2>
+        <div class="alert alert-info" role="alert">
+            Your score: {{ score }}/{{ total_questions }}
+        </div>
+        <h4 class="mt-4">Your Answers:</h4>
+        <ul class="list-group">
+            {% for question, answer in answers.items %}
+                <li class="list-group-item">
+                    <strong>{{ question }}:</strong> {{ answer }}
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'take_quiz' %}" class="btn btn-primary mt-4">Take Another Quiz</a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
