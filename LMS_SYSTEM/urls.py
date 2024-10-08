@@ -29,17 +29,11 @@ urlpatterns = [
 
     path('module_group/', include('module_group.urls')),  
     path('user/', include(('user.urls', 'user'), namespace='user')),  # Register user app URLs with a namespace
-    
-     # Add this to include Django's built-in authentication views
-    # path('accounts/', include('django.contrib.auth.urls')),
-    # path('accounts/', include(('user.urls', 'user'), namespace='user')),
-    # path('category/', include('category.urls')),  
-    path('question/', include('question.urls')),  
     path('subject/', include('subject.urls')), 
     path('quiz/', include('quiz.urls')),  
-
     # path('exercises/', include('exercises.urls')), 
     path('coding_exercise/', include('coding_exercise.urls')), 
     path('assessments/', include('assessments.urls')),
+    path('course/', include('course.urls')),
 ]
 

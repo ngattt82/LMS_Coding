@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     # 'category',
     'subject', 
     'quiz', 
-    'question',
+    # 'question',
     'main',
     # 'exercises',
     'crispy_forms',
@@ -61,6 +61,8 @@ INSTALLED_APPS = [
     'coding_exercise',
     'assessments',
     'import_export',
+    'course',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
