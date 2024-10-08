@@ -1,9 +1,8 @@
-from django.db import models
-
 # Create your models here.
 from django.db import models
 from django.conf import settings
-from student.models import Student
+from user.models import User
+
 
 class ProgrammingLanguage(models.Model):
     name = models.CharField(max_length=50)
@@ -19,5 +18,17 @@ class Exercise(models.Model):
     test_cases = models.TextField(help_text="Define test cases as Python/Java/C code")
 
     def __str__(self):
-        return self.title
+        return self.title    
+
+
+class Submission(models.Model):
+    student = models.ForeignKey(User, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    code = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    score = models.IntegerField(null=True, blank=True)
+    
+    def __str__(self):
+        return f"{self.student.username} - {self.exercise.title}"
+
 

@@ -55,11 +55,11 @@ INSTALLED_APPS = [
     'quiz', 
     'question',
     'main',
-    'exercises',
+    # 'exercises',
     'crispy_forms',
     'debug_toolbar',
     'coding_exercise',
-    'student',
+    'assessments',
     'import_export',
 ]
 
@@ -91,21 +91,6 @@ TEMPLATES = [
     },
 ]
 
-# TEMPLATES = [
-#     {
-#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-#         'DIRS': [BASE_DIR / 'templates'],  # Ensure this is correct
-#         'APP_DIRS': True,
-#         'OPTIONS': {
-#             'context_processors': [
-#                 'django.template.context_processors.debug',
-#                 'django.template.context_processors.request',
-#                 'django.contrib.auth.context_processors.auth',
-#                 'django.contrib.messages.context_processors.messages',
-#             ],
-#         },
-#     },
-# ]
 
 WSGI_APPLICATION = 'LMS_SYSTEM.wsgi.application'
 

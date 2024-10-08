@@ -38,8 +38,8 @@ urlpatterns = [
     path('subject/', include('subject.urls')), 
     path('quiz/', include('quiz.urls')),  
 
-    path('exercises/', include('exercises.urls')), 
+    # path('exercises/', include('exercises.urls')), 
     path('coding_exercise/', include('coding_exercise.urls')), 
-    path('student/', include('student.urls')),
+    path('assessments/', include('assessments.urls')),
 ]
 
