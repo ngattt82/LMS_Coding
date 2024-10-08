@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Course: {{ course.course_name }}</h2>
+    <p><strong>Description:</strong> {{ course.course_description }}</p>
+    <p><strong>Created By:</strong> {{ course.created_by }}</p>
+    <p><strong>Created At:</strong> {{ course.created_at }}</p>
+    <p><strong>Updated At:</strong> {{ course.updated_at }}</p>
+
+    <!-- Display progress of users -->
+    <h3>Progress</h3>
+    <div class="d-flex justify-content-between mb-2">
+        <div class="d-flex align-items-center">
+            <a href="{% url 'course:create_progress' course.pk %}" class="btn btn-primary mr-2">Create Progress</a>
+            <a href="{% url 'course:course_edit' course.pk %}" class="btn btn-warning mr-2">Edit Course</a>
+            <a href="{% url 'course:course_delete' course.pk %}" class="btn btn-danger">Delete Course</a>
+        </div>
+    
+        <form method="GET" action="{% url 'course:course_detail' course.pk %}" class="form-inline">
+            <input type="text" name="user" value="{{ user_query|default_if_none:'' }}" class="form-control mr-sm-2" placeholder="Search user...">
+            <select name="progress" class="form-control mr-sm-2">
+                <option value="">Select Progress</option>
+                <option value="under_50" {% if selected_progress == 'under_50' %}selected{% endif %}>Under 50%</option>
+                <option value="50_to_90" {% if selected_progress == '50_to_90' %}selected{% endif %}>50% to 90%</option>
+                <option value="over_90" {% if selected_progress == 'over_90' %}selected{% endif %}>Over 90%</option>
+                <option value="100" {% if selected_progress == '100' %}selected{% endif %}>100%</option>
+            </select>
+            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
+        </form>
+    </div>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Progress (%)</th>
+                <th>Last Accessed</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for progress in user_progress %}
+                <tr>
+                    <td>{{ progress.user }}</td>
+                    <td>{{ progress.progress_percentage }}%</td>
+                    <td>{{ progress.last_accessed }}</td>
+                    <td>
+                        <a href="{% url 'course:update_progress_percentage' course.pk progress.user.pk %}" class="btn btn-primary btn-sm">Update Progress</a>
+                        <a href="{% url 'course:delete_user_progress' course.pk progress.user.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No progress data available.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Buttons for course management -->
+    <div class="mt-4">
+
+        <a href="{% url 'course:course_list' %}" class="btn btn-secondary">Back to Course List</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,8 +1,8 @@
 from django.contrib import admin
-from import_export import resources
+from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
+from import_export.widgets import ForeignKeyWidget
 from .models import Subject, Category, Material
-
 
 # Define Resource classes for import/export functionality
 class SubjectResource(resources.ModelResource):
@@ -10,15 +10,17 @@ class SubjectResource(resources.ModelResource):
         model = Subject
         fields = ('id', 'name', 'description', 'code')  # Define fields to be imported/exported
 
-from import_export.fields import Field
 
 class CategoryResource(resources.ModelResource):
-    subject_name = Field(attribute='subject__name', column_name='subject__name')
+    subject = fields.Field(
+        column_name='subject__name',  # This should match the column name in your import file
+        attribute='subject',
+        widget=ForeignKeyWidget(Subject, 'name')  # Use the 'name' field to match the subject
+    )
 
     class Meta:
         model = Category
-        fields = ('id', 'category_name', 'subject_name')  # Include subject_name in fields
-
+        fields = ('id', 'category_name', 'subject')  # Include 'subject' directly as it is a ForeignKey
 
 @admin.register(Category)
 class CategoryAdmin(ImportExportModelAdmin):
@@ -26,13 +28,10 @@ class CategoryAdmin(ImportExportModelAdmin):
     list_display = ('category_name', 'subject')  # Ensure subject is displayed
     search_fields = ('category_name', 'subject__name')
 
-
-    
 class MaterialResource(resources.ModelResource):
     class Meta:
         model = Material
         fields = ('id', 'subject__name', 'material_type', 'file', 'google_drive_link', 'uploaded_at')
-
 
 # Define Admin classes with ImportExportModelAdmin
 @admin.register(Subject)
