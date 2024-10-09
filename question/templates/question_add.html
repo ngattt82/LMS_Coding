@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">Add New Question</h1>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form method="post" id="questionForm">
+        {% csrf_token %}
+        {{ question_form.as_p }}
+
+        <div id="answers-container">
+            <!-- Answers will be dynamically added here -->
+        </div>
+
+        <button type="button" id="add-answer" class="bg-blue-500 text-white px-4 py-2 rounded mt-2">Add Answer</button>
+
+        <div class="mt-4">
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Save Question</button>
+            <a href="{% url 'question:question_list' %}" class="bg-red-500 text-white px-4 py-2 rounded ml-2">Return to Question List</a>
+            <a href="{% url 'question:question_filter' %}" class="bg-yellow-500 text-white px-4 py-2 rounded ml-2">Return to Question Filter</a>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const answersContainer = document.getElementById('answers-container');
+        const addAnswerButton = document.getElementById('add-answer');
+        let answerCount = 0;
+
+        function addAnswerField() {
+            const answerDiv = document.createElement('div');
+            answerDiv.className = 'answer-field mt-2';
+            answerDiv.innerHTML = `
+                <input type="text" name="answer_text[]" placeholder="Answer text" class="border p-2 mr-2">
+                <label>
+                    <input type="checkbox" name="is_correct[]" value="True"> Correct
+                </label>
+            `;
+            answersContainer.appendChild(answerDiv);
+            answerCount++;
+        }
+
+        addAnswerButton.addEventListener('click', addAnswerField);
+
+        // Add initial answer field
+        addAnswerField();
+
+        // Form submission
+        document.getElementById('questionForm').addEventListener('submit', function(e) {
+            if (answerCount === 0) {
+                e.preventDefault();
+                alert('Please add at least one answer.');
+            }
+        });
+    });
+</script>
+{% endblock %}
