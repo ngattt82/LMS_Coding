@@ -18,6 +18,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Module Name</th>
                 <th>Module Group</th>
                 <th>Icon</th>
@@ -27,6 +28,7 @@
         <tbody>
             {% for module in modules %}
             <tr>
+                <td>{{ forloop.counter }}</td>  <!-- Add this line to show the row number -->
                 <td>{{ module.module_name }}</td>
                 <td>{{ module.module_group }}</td>
                 <td><i class="{{ module.icon }}"></i></td>

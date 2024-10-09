@@ -13,3 +13,4 @@ django-import-export
 django-widget-tweaks
 pandas
 openpyxl
+psycopg2
