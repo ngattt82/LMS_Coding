@@ -30,10 +30,16 @@ urlpatterns = [
     path('module_group/', include('module_group.urls')),  
     path('user/', include(('user.urls', 'user'), namespace='user')),  # Register user app URLs with a namespace
     path('subject/', include('subject.urls')), 
+    path('training_program/', include('training_program.urls')),
+
     path('quiz/', include('quiz.urls')),  
     # path('exercises/', include('exercises.urls')), 
     path('coding_exercise/', include('coding_exercise.urls')), 
     path('assessments/', include('assessments.urls')),
     path('course/', include('course.urls')),
+    path('std_quiz/', include('std_quiz.urls')),
+    path('student_materials/', include('student_materials.urls')),
+    
+
 ]
 

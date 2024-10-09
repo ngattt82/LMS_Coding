@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Course, UserCourseProgress, User
+from .models import Course, UserCourseProgress 
 from .forms import CourseForm, UserCourseProgressForm
 from django.utils import timezone
 from django.contrib import messages

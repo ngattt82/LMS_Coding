@@ -51,7 +51,9 @@ INSTALLED_APPS = [
     'user',
     'module_group',
     # 'category',
+    'training_program',
     'subject', 
+    'student_materials',
     'quiz', 
     # 'question',
     'main',
@@ -63,6 +65,7 @@ INSTALLED_APPS = [
     'import_export',
     'course',
     'widget_tweaks',
+    'std_quiz'
 ]
 
 MIDDLEWARE = [
