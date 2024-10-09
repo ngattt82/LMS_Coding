@@ -13,6 +13,7 @@
         <a class="navbar-brand" href="{% url 'main:home' %}">FSA</a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
+                {% if user.is_authenticated %}
                 {% for group in module_groups %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="{{ group.id }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -20,11 +21,15 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="{{ group.id }}">
                             {% for module in group.modules.all %}
-                           <a class="dropdown-item" href="{% url module.module_url %}"> <i class="{{ module.icon }}"></i> &nbsp;{{ module.module_name }}</a>
+                                {% if module in user.modules.all %}
+                                    <a class="dropdown-item" href="{% url module.module_url %}"> <i class="{{ module.icon }}"></i> &nbsp;{{ module.module_name }}</a>
+                                {% endif %}
                             {% endfor %}
                         </div>
                     </li>
                 {% endfor %}
+            {% endif %}
+            
             </ul>
             <ul class="navbar-nav ml-auto">
                 

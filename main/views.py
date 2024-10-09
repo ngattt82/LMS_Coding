@@ -27,24 +27,17 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 
-# Home view (for testing login_required)
 @login_required
 def home_view(request):
-    module_groups = ModuleGroup.objects.all()
-    modules = Module.objects.all()
+    modules = request.user.modules.all()
+    module_groups = ModuleGroup.objects.filter(modules__in=modules).distinct()
+
     return render(request, 'home.html', {
         'module_groups': module_groups,
         'modules': modules,
     })
 
 
-def base_view(request):
-    module_groups = ModuleGroup.objects.all()
-    modules = Module.objects.all()
-    return render(request, 'base.html', {
-        'module_groups': module_groups,
-        'modules': modules,
-    })
 
 
 
