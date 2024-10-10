@@ -77,7 +77,8 @@ INSTALLED_APPS = [
     'coding_exercise', #Binh_Thang
     # 'assessments',
     'import_export',
-    'course', #'feedback', 'forum', #group02
+    'subject_course', 
+    #'course','feedback', 'forum', #group02
     'activity', #group05
 ]
 

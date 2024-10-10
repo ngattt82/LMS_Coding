@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from course.models import Course  # Assuming Course is in the course app
+from subject_course.models import Course  # Assuming Course is in the course app
 from training_program.models import TrainingProgram  # Assuming Training Program model exists
 
 class InstructorFeedback(models.Model):

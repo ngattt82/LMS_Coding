@@ -5,7 +5,7 @@ from import_export.widgets import ForeignKeyWidget
 from django.contrib import admin
 from user.models import User
 from .models import Quiz, Question, AnswerOption, StudentQuizAttempt
-from course.models import Course
+from subject_course.models import Course
 
 # Quiz Resource
 class QuizResource(resources.ModelResource):

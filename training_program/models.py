@@ -1,6 +1,6 @@
 from django.db import models
 from subject.models import Subject
-from course.models import Course
+from subject_course.models import Course
 class TrainingProgram(models.Model):
     program_name = models.CharField(max_length=255, unique=True)
     program_code = models.CharField(max_length=50, unique=True)
