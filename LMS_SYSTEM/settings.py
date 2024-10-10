@@ -75,10 +75,10 @@ INSTALLED_APPS = [
     'crispy_forms',
     'debug_toolbar',
     'coding_exercise', #Binh_Thang
-    'assessments',
+    # 'assessments',
     'import_export',
-    'course', 'feedback', 'forum', #group02
-    'certificate', 'activity', #group05
+    'course', #'feedback', 'forum', #group02
+    'activity', #group05
 ]
 
 MIDDLEWARE = [
@@ -90,6 +90,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'activity.activity_tracking_middleware.ActivityTrackingMiddleware'
+
 ]
 
 ROOT_URLCONF = 'LMS_SYSTEM.urls'

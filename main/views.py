@@ -29,8 +29,9 @@ def login_view(request):
 
 @login_required
 def home_view(request):
-    modules = request.user.modules.all()
-    module_groups = ModuleGroup.objects.filter(modules__in=modules).distinct()
+    # modules = request.user.modules.all()
+    modules = Module.objects.all()
+    module_groups = ModuleGroup.objects.all() #ModuleGroup.objects.filter(modules__in=modules).distinct()
 
     return render(request, 'home.html', {
         'module_groups': module_groups,
