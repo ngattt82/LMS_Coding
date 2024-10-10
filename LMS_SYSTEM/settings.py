@@ -68,7 +68,10 @@ INSTALLED_APPS = [
     'import_export',
     'course',
     'widget_tweaks',
-    'std_quiz'
+    'std_quiz',
+    'feedback',
+    'forum',
+   
 ]
 
 MIDDLEWARE = [
@@ -113,17 +116,32 @@ WSGI_APPLICATION = 'LMS_SYSTEM.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'LMS',
-        'USER': 'postgres',
-        'PASSWORD': '1234567890',
-        'HOST': 'localhost',  # Set to the appropriate host if using a remote server
-        'PORT': '5432',       # Default PostgreSQL port
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'coding_lms',
+        'USER': 'root',
+        'PASSWORD': 'thuongnb19112002',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'LMS',
+#         'USER': 'postgres',
+#         'PASSWORD': '1234567890',
+#         'HOST': 'localhost',  # Set to the appropriate host if using a remote server
+#         'PORT': '5432',       # Default PostgreSQL port
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

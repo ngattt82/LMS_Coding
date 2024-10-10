@@ -1,69 +1,124 @@
 {% extends 'base.html' %}
+{% load form_filters %}
 
-{% block title %}Course Detail{% endblock %}
+{% block title %}{{ course.name }}{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Course: {{ course.course_name }}</h2>
-    <p><strong>Description:</strong> {{ course.course_description }}</p>
-    <p><strong>Created By:</strong> {{ course.created_by }}</p>
-    <p><strong>Created At:</strong> {{ course.created_at }}</p>
-    <p><strong>Updated At:</strong> {{ course.updated_at }}</p>
+<div class="container">
+    <h1 class="text-2xl font-bold mb-4">{{ course.name }} - Details</h1>
 
-    <!-- Display progress of users -->
-    <h3>Progress</h3>
-    <div class="d-flex justify-content-between mb-2">
-        <div class="d-flex align-items-center">
-            <a href="{% url 'course:create_progress' course.pk %}" class="btn btn-primary mr-2">Create Progress</a>
-            <a href="{% url 'course:course_edit' course.pk %}" class="btn btn-warning mr-2">Edit Course</a>
-            <a href="{% url 'course:course_delete' course.pk %}" class="btn btn-danger">Delete Course</a>
-        </div>
-    
-        <form method="GET" action="{% url 'course:course_detail' course.pk %}" class="form-inline">
-            <input type="text" name="user" value="{{ user_query|default_if_none:'' }}" class="form-control mr-sm-2" placeholder="Search user...">
-            <select name="progress" class="form-control mr-sm-2">
-                <option value="">Select Progress</option>
-                <option value="under_50" {% if selected_progress == 'under_50' %}selected{% endif %}>Under 50%</option>
-                <option value="50_to_90" {% if selected_progress == '50_to_90' %}selected{% endif %}>50% to 90%</option>
-                <option value="over_90" {% if selected_progress == 'over_90' %}selected{% endif %}>Over 90%</option>
-                <option value="100" {% if selected_progress == '100' %}selected{% endif %}>100%</option>
-            </select>
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Search</button>
-        </form>
-    </div>
-    
-    <table class="table table-bordered">
-        <thead>
+    <!-- Information Table -->
+    <table class="table table-bordered mb-4">
+        <thead class="thead-light">
             <tr>
-                <th>User</th>
-                <th>Progress (%)</th>
-                <th>Last Accessed</th>
-                <th>Actions</th>
+                <th colspan="2">Information</th>
             </tr>
         </thead>
         <tbody>
-            {% for progress in user_progress %}
-                <tr>
-                    <td>{{ progress.user }}</td>
-                    <td>{{ progress.progress_percentage }}%</td>
-                    <td>{{ progress.last_accessed }}</td>
-                    <td>
-                        <a href="{% url 'course:update_progress_percentage' course.pk progress.user.pk %}" class="btn btn-primary btn-sm">Update Progress</a>
-                        <a href="{% url 'course:delete_user_progress' course.pk progress.user.pk %}" class="btn btn-danger btn-sm">Delete</a>
-                    </td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No progress data available.</td>
-                </tr>
-            {% endfor %}
+            <tr>
+                <th>Course ID</th>
+                <td>{{ course.id }}</td>
+            </tr>
+            <tr>
+                <th>Course Code</th>
+                <td>{{ course.course_code }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ course.description }}</td>
+            </tr>
+            <tr>
+                <th>Instructor</th>
+                <td>{{ course.instructor.get_full_name }} ({{ course.instructor.username }})</td>
+            </tr>
+            <tr>
+                <th>Average Rating</th>
+                <td>
+                    {% if course_average_rating %}
+                        {{ course_average_rating|floatformat:1 }} / 5
+                    {% else %}
+                        No ratings yet.
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <th>Prerequisite Courses</th>
+                <td>
+                    {% if course.prerequisites.exists %}
+                        <ul class="list-unstyled">
+                            {% for prerequisite in course.prerequisites.all %}
+                                <li>{{ prerequisite.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        No prerequisites for this course.
+                    {% endif %}
+                </td>
+            </tr>
         </tbody>
     </table>
 
-    <!-- Buttons for course management -->
-    <div class="mt-4">
+    <!-- Student Feedback Table -->
+    <table class="table table-bordered mb-4">
+        <thead class="thead-light">
+            <tr>
+                <th colspan="3">Student Feedback</th>
+            </tr>
+            <tr>
+                <th>Student</th>
+                <th>Rating</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if feedbacks %}
+                {% for feedback in feedbacks %}
+                    <tr>
+                        <td>{{ feedback.student.get_full_name }} ({{ feedback.student.username }})</td>
+                        <td>{{ feedback.average_rating|floatformat:1 }} / 5</td>
+                        <td>{{ feedback.comments }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3">No feedback has been provided for this course yet.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
 
-        <a href="{% url 'course:course_list' %}" class="btn btn-secondary">Back to Course List</a>
+    <!-- Action Buttons -->
+    <div class="text-center mb-4">
+        <div class="d-flex justify-content-between flex-wrap">
+            <a href="{% url 'course:users_enrolled' course.pk %}" class="btn btn-info mb-2">
+                Users Enrolled ({{ users_enrolled_count }})
+            </a>
+
+            {% if is_enrolled %}
+                <a href="{% url 'course:course_content' course.pk sessions.0.id %}" class="btn btn-success mb-1">Go to Content</a>
+                <a href="{% url 'course:course_unenroll' course.pk %}" class="btn btn-danger mb-1">Unenroll</a>
+            {% else %}
+                <a href="{% url 'course:course_enroll' course.pk %}" class="btn btn-primary mb-1">Enroll</a>
+            {% endif %}
+
+            <!-- New button for Feedback -->
+            <a href="{% url 'feedback:give_course_feedback' course.pk %}" class="btn btn-warning mb-1">Give Feedback</a>
+
+            <a href="{% url 'course:course_list' %}" class="btn btn-secondary mb-1">Return to Course List</a>
+
+            {% if user == course.instructor or user.is_superuser %}
+                <form id="publishForm" method="post" action="{% url 'course:toggle_publish' course.pk %}" class="d-inline-block mb-1">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-warning">
+                        {% if course.published %}
+                            Unpublish
+                        {% else %}
+                            Publish
+                        {% endif %}
+                    </button>
+                </form>
+            {% endif %}
+        </div>
     </div>
 </div>
 {% endblock %}

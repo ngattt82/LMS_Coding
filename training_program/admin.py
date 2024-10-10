@@ -7,15 +7,15 @@ from training_program.models import TrainingProgram
 
 # TrainingProgram Resource
 class TrainingProgramResource(resources.ModelResource):
-    subjects = fields.Field(
-        column_name='subjects',  # Column name in the import/export file
-        attribute='subjects',
-        widget=ForeignKeyWidget(Subject, 'subject_name')  # Assuming subject_name is the attribute to link to Subject
-    )
+    # subjects = fields.Field(
+    #     column_name='subjects',  # Column name in the import/export file
+    #     attribute='subjects',
+    #     widget=ForeignKeyWidget(Subject, 'subject_name')  # Assuming subject_name is the attribute to link to Subject
+    # )
 
     class Meta:
         model = TrainingProgram
-        fields = ('id', 'program_name', 'program_code', 'description', 'subjects')  # Add subjects field
+        fields = ('id', 'program_name', 'program_code', 'description')  # Add subjects field
 
 
 # Admin registration for TrainingProgram

@@ -1,0 +1,57 @@
+New console -> Bash
+~ $ git clone https://github.com/famaterialsg/Courseslms.git
+ ~ $ mkvirtualenv --python=/usr/bin/python3.10 venv
+~ $ pwd
+~ $ ls
+~ $ ls -l
+~ $ cd Courseslms
+~/Courseslms (main)$ python manage.py dbshell
+~/Courseslms (main)$ pip install Django 
+or, if you have a requirements.txt:
+~/Courseslms (main)$pip install -r requirements.txt
+ ~/Courseslms (main)$ pip install openpyxl
+~/Courseslms (main)$ pip install pandas
+~/Courseslms (main)$ python manage.py dumpdata > mydb.json
+	in pythonanywhere Creat database
+	# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  
+
+#         'NAME': '',                    
+#         'USER': '',                
+#         'PASSWORD': '',         
+#         'HOST': '',  
+	Add new web app
+	
+Open FILE:
+	ex:/home/courseslms/Courseslms/COURSES_LMS/settings.py
+	ALLOWED_HOSTS = ['insert your host']             
+Open WED
+Virtualenv: Insert venv
+Code : Click WSGI configuration file:
+# +++++++++++ DJANGO +++++++++++
+
+import os
+import sys
+
+## and your manage.py is is at '/home/courseslms/mysite/manage.py'
+path = '/home/courseslms/Courseslms'
+if path not in sys.path:
+    sys.path.append(path)
+#os.environ['DJANGO_SETTINGS_MODULE'] = 'mysite.settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'COURSES_LMS.settings'
+
+## then:
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
+
+#     }
+
+
+~/Courseslms (main)$ python manage.py migrate
+~/Courseslms (main)$ pip install mysqlclient
+~/Courseslms (main)$ python manage.py migrate
+~/Courseslms (main)$ python manage.py loaddata  mydb.json
+###check connect
+~/Courseslms (main)$ python manage.py dbshell
+mysql> show tables;

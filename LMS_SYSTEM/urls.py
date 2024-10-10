@@ -39,7 +39,8 @@ urlpatterns = [
     path('course/', include('course.urls')),
     path('std_quiz/', include('std_quiz.urls')),
     path('student_materials/', include('student_materials.urls')),
-    
+    path('feedback/', include('feedback.urls', namespace='feedback')),
+    path('forum/', include('forum.urls', namespace='forum')),
 
 ]
 

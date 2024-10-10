@@ -1,22 +1,66 @@
 from django import forms
-from .models import Course, UserCourseProgress
-from user.models import User  # Giả sử mô hình User nằm trong ứng dụng user
+from .models import *
+from user.models import User
+
+# Form for creating and editing courses
 
 class CourseForm(forms.ModelForm):
+    creator = forms.ModelChoiceField(queryset=User.objects.all(), required=False, empty_label="Select Creator")
+    instructor = forms.ModelChoiceField(queryset=User.objects.all(), required=False, empty_label="Select Instructor")
+    prerequisites = forms.ModelMultipleChoiceField(queryset=Course.objects.all(),required=False,widget=forms.CheckboxSelectMultiple)
     class Meta:
         model = Course
-        fields = ['course_name', 'course_description', 'created_by']
-        widgets = {
-            'created_by': forms.Select(),  # Hiển thị danh sách người dùng để chọn người tạo khóa học
-        }
+        fields = ['name','course_code', 'description', 'creator','instructor', 'prerequisites']
 
-class UserCourseProgressForm(forms.ModelForm):
-    user = forms.ModelChoiceField(queryset=User.objects.all(), label='User')  # Dropdown để chọn người dùng
-    course = forms.ModelChoiceField(queryset=Course.objects.all(), label='Course')  # Dropdown để chọn khóa học
-
+class SessionForm(forms.ModelForm):
+    session_name = forms.CharField(max_length=50, required=False, label="Session Name")
+    session_quantity = forms.IntegerField(min_value=1, required=False, label="Number of Sessions")
     class Meta:
-        model = UserCourseProgress
-        fields = ['user', 'course', 'progress_percentage']
-        widgets = {
-            'progress_percentage': forms.NumberInput(attrs={'step': '0.01', 'min': '0', 'max': '100'}),  # Hiển thị trường số với bước và phạm vi
-        }
+        model = Session
+        fields = ['name', 'order', 'course']
+
+
+
+# Form cho việc thêm tài liệu
+class DocumentForm(forms.ModelForm):
+    doc_title = forms.CharField(label='Document Title', max_length=255,required=False)
+    doc_file = forms.FileField(label='Upload Document',required=False)
+    class Meta:
+        model = Document
+        fields = ['doc_title', 'doc_file', 'material']
+
+# Form cho việc thêm video
+class VideoForm(forms.ModelForm):
+    vid_title = forms.CharField(label='Video Title', max_length=255,required=False)
+    vid_file = forms.FileField(label='Upload Video',required=False)
+    class Meta:
+        model = Video
+        fields = ['vid_title', 'vid_file', 'material']
+
+class EnrollmentForm(forms.ModelForm):
+    class Meta:
+        model = Enrollment
+        fields = []
+
+class CourseSearchForm(forms.Form):
+    query = forms.CharField(max_length=255, required=False, label='Research Course')
+
+class ExcelImportForm(forms.Form):
+    excel_file = forms.FileField(label="Upload Excel File")
+
+
+class CompletionForm(forms.ModelForm):
+    class Meta:
+        model = Completion
+        fields = ['completed', 'material']
+
+
+class ReadingMaterialForm(forms.ModelForm):
+    class Meta:
+        model = ReadingMaterial
+        fields = ['title', 'content', 'material']  # Include the course if needed
+
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
+
+
