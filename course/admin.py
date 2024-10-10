@@ -1,14 +1,41 @@
 from django.contrib import admin
-from import_export import resources
+from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 
-from .models import Course, Session, CourseMaterial, Document, Video, Enrollment, ReadingMaterial, Completion, SessionCompletion
+from .models import *
+from django.contrib import admin
 
+from import_export.widgets import ForeignKeyWidget
+from user.models import User
 # Define resources for import/export
 class CourseResource(resources.ModelResource):
     class Meta:
         model = Course
 
+# UserCourseProgress Resource
+class UserCourseProgressResource(resources.ModelResource):
+    user = fields.Field(
+        column_name='user__username',  # Assuming username is the desired attribute to import/export
+        attribute='user',
+        widget=ForeignKeyWidget(User, 'username')  # Use the username to link to the User model
+    )
+    course = fields.Field(
+        column_name='course__course_name',  # Assuming course_name is the desired attribute to import/export
+        attribute='course',
+        widget=ForeignKeyWidget(Course, 'course_name')  # Use course_name to link to the Course model
+    )
+
+    class Meta:
+        model = UserCourseProgress
+        fields = ('id', 'user', 'course', 'progress_percentage', 'last_accessed')
+
+# Admin registration for UserCourseProgress
+@admin.register(UserCourseProgress)
+class UserCourseProgressAdmin(ImportExportModelAdmin):
+    resource_class = UserCourseProgressResource
+    list_display = ('user', 'course', 'progress_percentage', 'last_accessed')
+    search_fields = ('user__username', 'course__course_name')  # Searchable fields
+    list_filter = ('user', 'course')  # Filter by user and course
 class SessionResource(resources.ModelResource):
     class Meta:
         model = Session

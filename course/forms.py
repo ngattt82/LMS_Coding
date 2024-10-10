@@ -12,6 +12,18 @@ class CourseForm(forms.ModelForm):
         model = Course
         fields = ['name','course_code', 'description', 'creator','instructor', 'prerequisites']
 
+class UserCourseProgressForm(forms.ModelForm):
+    user = forms.ModelChoiceField(queryset=User.objects.all(), label='User')  # Dropdown để chọn người dùng
+    course = forms.ModelChoiceField(queryset=Course.objects.all(), label='Course')  # Dropdown để chọn khóa học
+
+    class Meta:
+        model = UserCourseProgress
+        fields = ['user', 'course', 'progress_percentage']
+        widgets = {
+            'progress_percentage': forms.NumberInput(attrs={'step': '0.01', 'min': '0', 'max': '100'}),  # Hiển thị trường số với bước và phạm vi
+        }
+
+
 class SessionForm(forms.ModelForm):
     session_name = forms.CharField(max_length=50, required=False, label="Session Name")
     session_quantity = forms.IntegerField(min_value=1, required=False, label="Number of Sessions")

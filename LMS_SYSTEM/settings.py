@@ -37,10 +37,21 @@ SECRET_KEY = 'django-insecure-h+p6t3%50m)_a15%4&i*q_ule5a_$566#wu=f_5uvlapiqq%5v
 DEBUG = True
 
 ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['codinglmsfsa.pythonanywhere.com']
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
 ]
+
+# CKEditor configuration
+CKEDITOR_UPLOAD_PATH = "uploads/"  # Path where uploaded images will be stored
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': 'auto',
+    },
+}
 
 # Application definition
 
@@ -51,27 +62,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ckeditor',
+    'ckeditor_uploader',  # Optional: if you want to allow image uploads
+    'widget_tweaks',
     'user',
     'module_group',
-    # 'category',
     'training_program',
-    'subject', 
-    'student_materials',
-    'quiz', 
-    # 'question',
+    'subject', 'student_materials', #for FSA subject
+    'quiz', 'std_quiz', #group03
     'main',
     # 'exercises',
     'crispy_forms',
     'debug_toolbar',
-    'coding_exercise',
+    'coding_exercise', #Binh_Thang
     'assessments',
     'import_export',
-    'course',
-    'widget_tweaks',
-    'std_quiz',
-    'feedback',
-    'forum',
-   
+    'course', 'feedback', 'forum', #group02
+    'certificate', 'activity', #group05
 ]
 
 MIDDLEWARE = [
@@ -116,32 +123,17 @@ WSGI_APPLICATION = 'LMS_SYSTEM.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'coding_lms',
-        'USER': 'root',
-        'PASSWORD': 'thuongnb19112002',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'LMS',
+        'USER': 'postgres',
+        'PASSWORD': '1234567890',
+        'HOST': 'localhost',  # Set to the appropriate host if using a remote server
+        'PORT': '5432',       # Default PostgreSQL port
     }
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'LMS',
-#         'USER': 'postgres',
-#         'PASSWORD': '1234567890',
-#         'HOST': 'localhost',  # Set to the appropriate host if using a remote server
-#         'PORT': '5432',       # Default PostgreSQL port
-#     }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -178,8 +170,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Define the directory where static files will be collected (if you run `collectstatic`)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # used for production
+
+# Define additional directories to look for static files
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # Adjust the path as necessary based on your project structure
+    os.path.join(BASE_DIR, 'static'),  # Custom static files directory
 ]
 
 # Default primary key field type
