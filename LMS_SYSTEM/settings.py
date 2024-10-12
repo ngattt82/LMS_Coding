@@ -62,24 +62,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
     'import_export',
     'ckeditor',
-    'ckeditor_uploader',  # Optional: if you want to allow image uploads
+    'ckeditor_uploader',  #Optional: if you want to allow image uploads
     'widget_tweaks',
     'user',
     'module_group',
     'training_program',
     'subject', 'student_materials', #for FSA subject
     'quiz', 'std_quiz', #group03
-    'main',
-    # 'exercises',
-    'crispy_forms',
+    'main', #for hompage
     'debug_toolbar',
     'coding_exercise', #Binh_Thang
     # 'assessments',
-   
     'course', 'feedback', 'forum', #group02
     'activity', #group05
+    'chat', 'chatapp', 'thread', 'collaboration_group', 'collaboration_member', #Group04
 ]
 
 MIDDLEWARE = [

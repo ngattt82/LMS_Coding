@@ -22,9 +22,10 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="{{ group.id }}">
                             {% for module in group.modules.all %}
-                                {% if module in user.modules.all %}
+                                
                                     <a class="dropdown-item" href="{% url module.module_url %}"> <i class="{{ module.icon }}"></i> &nbsp;{{ module.module_name }}</a>
-                                {% endif %}
+                                    <!-- {% if module in user.modules.all %}
+                                    {% endif %} -->
                             {% endfor %}
                         </div>
                     </li>

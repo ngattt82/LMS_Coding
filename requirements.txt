@@ -14,3 +14,4 @@ django-widget-tweaks
 pandas
 openpyxl
 psycopg2
+google-generativeai
