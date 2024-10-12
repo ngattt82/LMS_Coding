@@ -8,6 +8,26 @@ from django.db import models  # Import the models module
 import zipfile
 import os
 import mimetypes
+from subject.models import *
+
+
+# for new sharing course
+def subject_list(request):
+    subjects = Subject.objects.all().order_by('name')  # Order by name
+    return render(request, 'subject/subject_list.html', {'subjects': subjects})
+
+
+def subject_detail(request, subject_id):
+    subject = get_object_or_404(Subject, id=subject_id)
+    lessons = subject.lessons.all().order_by('title')
+    return render(request, 'subject/subject_detail.html', {'subject': subject, 'lessons': lessons})
+
+def lesson_detail(request, lesson_id):
+    lesson = get_object_or_404(Lesson, id=lesson_id)
+    materials = lesson.materials.all()
+    return render(request, 'subject/lesson_detail.html', {'lesson': lesson, 'materials': materials})
+
+# for old function
 
 def get_subjects(request, training_program_id):
     # Fetch subjects related to the training program directly

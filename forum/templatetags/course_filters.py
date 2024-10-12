@@ -1,6 +1,5 @@
 # forum/templatetags/course_filters.py
 from django import template
-from subject_course.models import Course
 
 register = template.Library()
 

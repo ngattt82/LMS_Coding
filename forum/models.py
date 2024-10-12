@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from subject_course.models import Course
+from course.models import Course
 
 class ForumQuestion(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

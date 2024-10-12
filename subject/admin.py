@@ -2,7 +2,7 @@ from django.contrib import admin
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from import_export.widgets import ForeignKeyWidget
-from .models import Subject, Category, Material
+from .models import Subject, Category, Lesson, Material
 
 # Define Resource classes for import/export functionality
 class SubjectResource(resources.ModelResource):
@@ -28,21 +28,44 @@ class CategoryAdmin(ImportExportModelAdmin):
     list_display = ('category_name', 'subject')  # Ensure subject is displayed
     search_fields = ('category_name', 'subject__name')
 
+class LessonResource(resources.ModelResource):
+    subject = fields.Field(
+        column_name='subject__name',
+        attribute='subject',
+        widget=ForeignKeyWidget(Subject, 'name')  # Match the subject by name
+    )
+
+    class Meta:
+        model = Lesson
+        fields = ('id', 'title', 'subject__name', 'description', 'content', 'created_at')  # Added 'content'
+
+@admin.register(Lesson)
+class LessonAdmin(ImportExportModelAdmin):
+    resource_class = LessonResource
+    list_display = ('title', 'subject', 'created_at', 'content')  # Added 'content'
+    search_fields = ('title', 'subject__name', 'content')  # Added 'content' to search fields
+
+
 class MaterialResource(resources.ModelResource):
+    lesson = fields.Field(
+        column_name='lesson__title',  # Use the lesson's title for import/export
+        attribute='lesson',
+        widget=ForeignKeyWidget(Lesson, 'title')  # Use 'title' for matching the lesson
+    )
+
     class Meta:
         model = Material
-        fields = ('id', 'subject__name', 'material_type', 'file', 'google_drive_link', 'uploaded_at')
+        fields = ('id', 'lesson__subject__name', 'lesson__title', 'material_type', 'file', 'uploaded_at')
 
-# Define Admin classes with ImportExportModelAdmin
+@admin.register(Material)
+class MaterialAdmin(ImportExportModelAdmin):
+    resource_class = MaterialResource
+    list_display = ('lesson', 'material_type', 'uploaded_at')
+    search_fields = ('lesson__title', 'material_type')
+    list_filter = ('material_type', 'lesson__subject')
+
 @admin.register(Subject)
 class SubjectAdmin(ImportExportModelAdmin):
     resource_class = SubjectResource
     list_display = ('name', 'code', 'description')
     search_fields = ('name', 'code')
-
-@admin.register(Material)
-class MaterialAdmin(ImportExportModelAdmin):
-    resource_class = MaterialResource
-    list_display = ('subject', 'material_type', 'google_drive_link', 'uploaded_at')
-    search_fields = ('subject__name', 'material_type')
-    list_filter = ('material_type', 'subject')

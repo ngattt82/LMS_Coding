@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from training_program.models import TrainingProgram
 from module_group.models import ModuleGroup
-from django.contrib.auth.models import User
+from user.models import User
 from subject.models import Subject  # Ensure you import the Subject model
 
 from .forms import TrainingProgramForm 

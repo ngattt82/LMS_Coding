@@ -19,17 +19,6 @@ class ExerciseResource(resources.ModelResource):
         widget=ForeignKeyWidget(ProgrammingLanguage, 'name')  # Use 'id' if you have IDs in the Excel file
     )
 
-    class Meta:
-        model = Exercise
-        fields = ('id', 'title', 'description', 'language', 'test_cases')  # Ensure 'language' is included
-
-
-class SubmissionResource(resources.ModelResource):
-    class Meta:
-        model = Submission
-        fields = ('id', 'student__username', 'exercise__title', 'code', 'created_at', 'score')  # Include ForeignKeys
-
-
 # Register models with ImportExportModelAdmin
 
 @admin.register(ProgrammingLanguage)
@@ -38,10 +27,16 @@ class ProgrammingLanguageAdmin(ImportExportModelAdmin):
 
 @admin.register(Exercise)
 class ExerciseAdmin(ImportExportModelAdmin):
-    resource_class = ExerciseResource
+    list_display = ('title', 'description', 'language')
+    search_fields = ('title',)
 
-# admin.py
 @admin.register(Submission)
 class SubmissionAdmin(ImportExportModelAdmin):
-    resource_class = SubmissionResource
-    list_display = ('student', 'exercise', 'created_at', 'score')  # Customize this as needed
+    list_display = ('exercise', 'student', 'created_at', 'score')
+    search_fields = ('exercise__title', 'submission__student')
+    list_filter = ('exercise',)
+    readonly_fields = ('created_at',)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return queryset.select_related('exercise', 'student')

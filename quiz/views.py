@@ -9,7 +9,7 @@ from django.http import JsonResponse
 import pandas as pd
 from django.http import HttpResponse
 from openpyxl import Workbook
-from subject_course.models import Course
+from course.models import Course
 from subject.models import Subject
 import json
 import csv

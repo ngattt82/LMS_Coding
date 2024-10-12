@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'import_export',
     'ckeditor',
     'ckeditor_uploader',  # Optional: if you want to allow image uploads
     'widget_tweaks',
@@ -76,9 +77,8 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'coding_exercise', #Binh_Thang
     # 'assessments',
-    'import_export',
-    'subject_course', 
-    #'course','feedback', 'forum', #group02
+   
+    'course', 'feedback', 'forum', #group02
     'activity', #group05
 ]
 
